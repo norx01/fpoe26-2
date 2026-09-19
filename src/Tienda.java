@@ -8,6 +8,8 @@ public class Tienda {
     private JTextField campoDescuento;
     private JButton calcularValorCompraButton;
     private JLabel textoCompra;
+    private JLabel textoDescuento;
+    private JLabel textoTotal;
 
     public Tienda()
     {
@@ -18,13 +20,15 @@ public class Tienda {
                 //tomamos del campo el valor total de la compra
                int valorCompra = Integer.parseInt(campoCompra.getText());
                //tomamos del campo el valor del descuento
-               int valorDescuento = Integer.parseInt(campoDescuento.getText());
+               double valorDescuento = Double.parseDouble(campoDescuento.getText());
                //Calculamos el descuento
                double porcentajeDescuento = valorDescuento/100;
                //Calculamos el valor total de la compra con el descuento
                double valorTotal = valorCompra - (valorCompra*porcentajeDescuento);
 
                textoCompra.setText("Valor compra: $"+valorCompra);
+               textoDescuento.setText("Porcentaje descuento: "+valorDescuento+"%");
+               textoTotal.setText("Valor Total: $"+valorTotal);
 
             }
         });
