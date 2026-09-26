@@ -8,13 +8,18 @@ public class Adivinador
     private JPanel mainPanel;
     private JTextField campoNumero;
     private JButton adivinarButton;
+    private JLabel textoVidas;
+    private JButton reiniciarButton;
 
     int numeroAdivinar = 0;
+
+    int vidas = 3;
 
 
     public Adivinador()
     {
         generarAleatorio();
+        textoVidas.setText("Vidas: "+vidas);
 
         adivinarButton.addActionListener(new ActionListener() {
             @Override
@@ -35,19 +40,31 @@ public class Adivinador
                 {
                     JOptionPane.showMessageDialog(null, "CALIENTE");
                     mainPanel.setBackground(Color.RED);
+                    vidas--;
                     //adivinarButton.setEnabled(false);
                 }
                 else if (resultado <=5)
                 {
                     mainPanel.setBackground(Color.ORANGE);
                     JOptionPane.showMessageDialog(null, "TIBIO");
+                    vidas--;
                     //adivinarButton.setEnabled(false);
                 }
                 else
                 {
                     mainPanel.setBackground(Color.BLUE);
                     JOptionPane.showMessageDialog(null, "FRIO");
+                    vidas--;
                     //adivinarButton.setEnabled(false);
+                }
+                textoVidas.setText("Vidas: "+vidas);
+
+                if (vidas == 0)
+                {
+                    mainPanel.setBackground(Color.BLACK);
+                    adivinarButton.setEnabled(false);
+                    campoNumero.setEnabled(false);
+                    JOptionPane.showMessageDialog(null, "Has perdido \nEl numero era: "+numeroAdivinar);
                 }
 
                 /*
@@ -73,6 +90,19 @@ public class Adivinador
 
                  */
 
+            }
+        });
+        reiniciarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                generarAleatorio();
+                vidas = 5;
+                textoVidas.setText("Vidas: "+vidas);
+                mainPanel.setBackground(Color.WHITE);
+                adivinarButton.setEnabled(true);
+                campoNumero.setEnabled(true);
+                campoNumero.setText("");
             }
         });
     }
