@@ -65,6 +65,11 @@ public class ArcadeRetro {
 
     int[] costos = {0,0,0,0};
 
+    //validacion negativo
+    boolean validacion = false;
+
+
+
 
     public ArcadeRetro()
     {
@@ -125,74 +130,90 @@ public class ArcadeRetro {
 
     public void calcular()
     {
+        validacion = false;
         int cantidadPing = (int)spinnerPingPong.getValue();
         int cantidadPac = (int)spinnerPacman.getValue();
         int cantidadCarrera = (int)spinnerCarrera.getValue();
         int cantidadNave = (int)spinnerNave.getValue();
 
-        costos[0] = pingPong[0]*cantidadPing+nave[0]*cantidadNave+pacman[0]*cantidadPac+carrera[0]*cantidadCarrera;
-        costos[1] = pingPong[1]*cantidadPing+nave[1]*cantidadNave+pacman[1]*cantidadPac+carrera[1]*cantidadCarrera;
-        costos[2] = pingPong[2]*cantidadPing+nave[2]*cantidadNave+pacman[2]*cantidadPac+carrera[2]*cantidadCarrera;
-        costos[3] = pingPong[3]*cantidadPing+nave[3]*cantidadNave+pacman[3]*cantidadPac+carrera[3]*cantidadCarrera;
+        if (cantidadPing <= -1 || cantidadPac <= -1 || cantidadCarrera <= -1 || cantidadNave <= -1)
+        {
+            JOptionPane.showMessageDialog(null, "Debes ingresar un valor no negativo");
+        }
+        else
+        {
 
-        JOptionPane.showMessageDialog(null, "Fichas necesarias \n"+costos[0]+" Bronce \n"
-                +costos[1]+" Plata \n"+costos[2]+" Oro \n"+"Tiempo necesario \n"+costos[3]+" Minutos");
+            costos[0] = pingPong[0] * cantidadPing + nave[0] * cantidadNave + pacman[0] * cantidadPac + carrera[0] * cantidadCarrera;
+            costos[1] = pingPong[1] * cantidadPing + nave[1] * cantidadNave + pacman[1] * cantidadPac + carrera[1] * cantidadCarrera;
+            costos[2] = pingPong[2] * cantidadPing + nave[2] * cantidadNave + pacman[2] * cantidadPac + carrera[2] * cantidadCarrera;
+            costos[3] = pingPong[3] * cantidadPing + nave[3] * cantidadNave + pacman[3] * cantidadPac + carrera[3] * cantidadCarrera;
+
+            JOptionPane.showMessageDialog(null, "Fichas necesarias \n" + costos[0] + " Bronce \n"
+                    + costos[1] + " Plata \n" + costos[2] + " Oro \n" + "Tiempo necesario \n" + costos[3] + " Minutos");
+
+            validacion = true;
+        }
     }
 
     public void jugar()
     {
         calcular();
 
-        if (fichasBronce < costos[0])
+        if (validacion)
         {
-            JOptionPane.showMessageDialog(null, "No tienes suficientes fichas de bronce"
-                    +"\n"+"Fichas necesarias: "+(fichasBronce-costos[0]+" Bronce"));
-
-        }
-        else
-        {
-            if (fichasPlata < costos[1])
+            if (fichasBronce < costos[0])
             {
-                JOptionPane.showMessageDialog(null, "No tienes suficientes fichas de Plata"
-                        +"\n"+"Fichas necesarias: "+(fichasPlata-costos[1]+" Plata"));
-
+                JOptionPane.showMessageDialog(null, "No tienes suficientes fichas de bronce"
+                        +"\n"+"Fichas necesarias: "+(fichasBronce-costos[0]+" Bronce"));
 
             }
             else
             {
-                if (fichasOro < costos[2])
+                if (fichasPlata < costos[1])
                 {
-                    JOptionPane.showMessageDialog(null, "No tienes suficientes fichas de oro"
-                            +"\n"+"Fichas necesarias: "+(fichasOro-costos[2]+" Oro"));
+                    JOptionPane.showMessageDialog(null, "No tienes suficientes fichas de Plata"
+                            +"\n"+"Fichas necesarias: "+(fichasPlata-costos[1]+" Plata"));
 
 
                 }
                 else
                 {
-                    if (tiempoMaximo < costos[3]+minutosJugados)
+                    if (fichasOro < costos[2])
                     {
-                        JOptionPane.showMessageDialog(null, "Supera el tiempo maximo"+
-                                "\n"+"Tiempo necesario: "+(minutosJugados-costos[3]));
+                        JOptionPane.showMessageDialog(null, "No tienes suficientes fichas de oro"
+                                +"\n"+"Fichas necesarias: "+(fichasOro-costos[2]+" Oro"));
+
+
                     }
                     else
                     {
-                        fichasBronce -= costos[0];
-                        fichasPlata -= costos[1];
-                        fichasOro -= costos[2];
-                        minutosJugados += costos[3];
+                        if (tiempoMaximo < costos[3]+minutosJugados)
+                        {
+                            JOptionPane.showMessageDialog(null, "Supera el tiempo maximo"+
+                                    "\n"+"Tiempo necesario: "+(minutosJugados-costos[3]));
+                        }
+                        else
+                        {
+                            fichasBronce -= costos[0];
+                            fichasPlata -= costos[1];
+                            fichasOro -= costos[2];
+                            minutosJugados += costos[3];
 
-                        //Puntos y patidas ping pong
-                        partPing += (int)spinnerPingPong.getValue();
-                        int ramdonPing = 20 + (int)(Math.random() * 31)*(int)spinnerPingPong.getValue();
-                        ptsPing += ramdonPing;
+                            //Puntos y patidas ping pong
+                            partPing += (int)spinnerPingPong.getValue();
+                            int ramdonPing = 20 + (int)(Math.random() * 31)*(int)spinnerPingPong.getValue();
+                            ptsPing += ramdonPing;
 
 
-                        //puntos total
-                        totalPts += ramdonPing;
+                            //puntos total
+                            totalPts += ramdonPing;
+                        }
                     }
                 }
             }
         }
+
+
 
         inicializar();
     }
