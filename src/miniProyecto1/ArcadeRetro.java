@@ -204,7 +204,6 @@ public class ArcadeRetro {
                             int ramdonPing = 20 + (int)(Math.random() * 31)*(int)spinnerPingPong.getValue();
                             ptsPing += ramdonPing;
 
-
                             //puntos total
                             totalPts += ramdonPing;
                         }
