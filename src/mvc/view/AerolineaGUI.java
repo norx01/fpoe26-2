@@ -42,7 +42,8 @@ public class AerolineaGUI {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-
+                aerolineaController.actualizar(aerolinea());
+                agregarDatosTabla();
             }
         });
 
@@ -51,7 +52,9 @@ public class AerolineaGUI {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-
+                String codigo = campoCodigo.getText();
+                aerolineaController.eliminar(codigo);
+                agregarDatosTabla();
             }
         });
         table1.addMouseListener(new MouseAdapter() {
