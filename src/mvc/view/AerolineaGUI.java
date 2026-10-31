@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AerolineaGUI {
     private JPanel mainPanel;
@@ -51,6 +52,24 @@ public class AerolineaGUI {
             public void actionPerformed(ActionEvent e)
             {
 
+            }
+        });
+        table1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                super.mouseClicked(e);
+
+                int selectrow = table1.getSelectedRow();
+
+                if(selectrow >= 0)
+                {
+                    campoNombre.setText(table1.getValueAt(selectrow, 0).toString());
+                    campoCodigo.setText(table1.getValueAt(selectrow, 1).toString());
+                    spinnerCantidad.setValue(Integer.parseInt(table1.getValueAt(selectrow, 2).toString()));
+                    campoOrigen.setText(table1.getValueAt(selectrow, 4).toString());
+                    comboBoxOperacion.setSelectedItem(table1.getValueAt(selectrow, 3).toString());
+                }
             }
         });
     }
